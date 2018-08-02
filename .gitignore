@@ -1,0 +1,5 @@
+makefile
+.idea
+.DS_Store
+~/.gitignore
+vendor
