@@ -22,6 +22,8 @@
     "doctrine/annotations": "~1.6",
     "elasticsearch/elasticsearch": "5.3.0",
     "friendsofphp/php-cs-fixer": "^2.12",
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "phpstan/phpstan": "^0.10.2",
     "squizlabs/php_codesniffer": "*",
     "tuscanicz/enum": "~2.0.2"
   },
@@ -40,7 +42,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "ElasticOdm\\": [
+      "": [
         "tests/unit/",
         "tests/integration/",
         "tests/fixtures/"
@@ -51,12 +53,16 @@
     "cs-fixer-fix": "vendor/bin/php-cs-fixer fix --config=php-cs-fixer.php --show-progress estimating --allow-risky yes",
     "cs-fixer": "vendor/bin/php-cs-fixer fix --config=php-cs-fixer.php --dry-run --diff --show-progress estimating --allow-risky yes",
     "cs": "vendor/bin/phpcs --standard=codesniffer-ruleset.xml --parallel=10 --report-file=var/cache/codesniffer-outfile.xml src tests",
+    "phpstan": "vendor/bin/phpstan analyse src tests -l 7",
+    "phplint": "parallel-lint -j 10 --exclude var --exclude vendor .",
     "tests-unit": "vendor/bin/phpunit --testsuite=unit",
     "tests-integration": "vendor/bin/phpunit --testsuite=integration",
     "ci": [
-      "composer install",
+      "@composer install --no-progress --no-interaction --no-suggest",
+      "@phplint",
       "@cs-fixer",
       "@cs",
+      "@phpstan",
       "@tests-unit",
       "@tests-integration"
     ]

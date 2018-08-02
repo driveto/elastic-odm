@@ -21,7 +21,7 @@ class QueryFilterTypeEnumIntegrationTest extends TestCase
     }
 
     /**
-     * @return QueryFilterTypeEnum[]
+     * @return mixed[][]
      */
     public function provideEnums(): array
     {

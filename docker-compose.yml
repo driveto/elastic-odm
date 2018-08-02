@@ -1,0 +1,61 @@
+version: '2.1'
+
+services:
+
+  cerebro-test:
+    image: mhujer/docker-cerebro:latest
+    restart: always
+    expose:
+      - "8900"
+    networks:
+      eodm-network:
+        aliases:
+          - cerebro-test
+
+  elasticsearch-test:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
+    restart: always
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.graph.enabled=false
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    expose:
+      - "9200"
+    networks:
+      eodm-network:
+        aliases:
+          - elasticsearch-test
+
+  kibana-test:
+    image: docker.elastic.co/kibana/kibana:5.5.1
+    restart: always
+    environment:
+      - XPACK_MONITORING_ENABLED=false
+      - XPACK_SECURITY_ENABLED=false
+      - ELASTICSEARCH_URL=http://elasticsearch1:9200
+    expose:
+      - "5601"
+    networks:
+      eodm-network:
+        aliases:
+          - kibana-test
+
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  eodm-network:
+    external:
+      name: eodm-network
