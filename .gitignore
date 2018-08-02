@@ -4,3 +4,4 @@ makefile
 ~/.gitignore
 composer.lock
 vendor
+var/cache
