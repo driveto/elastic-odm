@@ -32,8 +32,11 @@
   },
   "autoload": {
     "psr-4": {
-      "ElasticOdm\\": "src"
-    }
+      "ElasticOdm\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
@@ -45,12 +48,12 @@
     }
   },
   "scripts": {
-    "cs-fixer": "vendor/bin/php-cs-fixer fix src",
+    "cs-fixer": "vendor/bin/php-cs-fixer fix --config=php-cs-fixer.php --dry-run --diff --show-progress estimating --allow-risky yes",
     "cs": "vendor/bin/phpcs src",
     "tests-unit": "vendor/bin/phpunit --testsuite=unit",
     "tests-integration": "vendor/bin/phpunit --testsuite=integration",
     "ci": [
-      "@install",
+      "composer install",
       "@cs-fixer",
       "@tests-unit",
       "@tests-integration"

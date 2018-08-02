@@ -1,6 +1,5 @@
 makefile
 .idea
-.php_cs.cache
 .DS_Store
 ~/.gitignore
 composer.lock
